@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" src="css/normalize-min.css" />
+  <link rel="stylesheet" href="css/leaflet.min.css" crossorigin=""/>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles-queries.css" media="screen and (max-width: 798px)">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#252831">
+
+  <style>
+    html{ overflow: hidden; }
+    html,
+    body{
+      width: 100vw;
+      max-width: 100%;
+      box-sizing: border-box;
+      height: 100%;
+      overflow-y: visible;
+    }
+    body,td,th,p{
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10pt;
+      color: #333;
+      line-height: 1.5;
+    }
+    body {
+      overflow-x: hidden;
+      background-color: #fdfdfd;
+      margin: 0;
+      position:relative;
+      display: flex;
+      flex-flow: column nowrap;
+    }
+    ul {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10pt;
+      color: #333;
+    }
+    ul li {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 10pt;
+      color: #333;
+    }
+    a {
+      color: orange;
+      text-decoration: none;
+    }
+    a img {
+      border: none 0px #fff;
+    }
+    a:hover, a:focus {
+      color: #3397db;
+      text-decoration: none;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: Arial, Helvetica, sans-serif;
+      margin: 0 0 20px;
+    }
+    article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+      display: block;
+    }
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 10000;
+    }
+    #maincontent {
+      background-color: #f3f3f3;
+      padding-top: 5rem;
+      width: 100vw;
+    }
+    #footer {
+      background-color: #444;
+      color: #aaa;
+      font-size: 8pt;
+      letter-spacing: 1px;
+      padding: 25px;
+      text-align: center;
+      text-transform: uppercase;
+      width: 100vw;
+      z-index: 1000;
+      bottom: 0;
+    }
+    #footer a{
+      width: 100%;
+    }
+    .lazy-load{
+      display: none !important;
+    }
+  </style>
+
+  <title>Restaurant Reviews</title>
+</head>
+
+<body>
+  <header>
+    <nav id="site-nav">
+      <h1><a href="/">Restaurant Reviews</a></h1>
+    </nav>
+  </header>
+
+  <main id="maincontent">
+    <section id="map-container">
+      <div id="map" role="application" aria-label="Mapbox map of NewYork neighborhoods and restaurants. Please tab over and use arrow keys to cycle through map marker icons and copyright content"></div>
+    </section>
+    <section id="restaurant-content">
+      <div class="filter-options">
+        <h3>Filter Results</h3>
+        <div class="select-container">
+          <select id="neighborhoods-select" aria-label="Select Options: Neighborhoods" name="neighborhoods" onchange="updateRestaurants()">
+            <option value="all">All Neighborhoods</option>
+          </select>
+          <select id="cuisines-select" aria-label="Select Options: Cuisine Type" name="cuisines" onchange="updateRestaurants()">
+            <option value="all">All Cuisines</option>
+          </select>
+        </div>
+      </div>
+      <ul id="restaurants-list"></ul>
+    </section>
+  </main>
+
+  <script src="js/idb.js" type="application/javascript" charset="utf-8"></script>
+  <script src="js/leaflet.min.js" crossorigin=""></script>
+  <script type="application/javascript" charset="utf-8" src="js/lazyload.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/service_worker.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/focus_helper.js"></script>
+
+  <footer id="footer">
+    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+
+</body>
+
+</html>
