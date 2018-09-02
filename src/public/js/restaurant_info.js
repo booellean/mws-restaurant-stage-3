@@ -133,7 +133,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  DBHelper.fillReviewsHTML(restaurant.id, null);
 }
 
 /**
@@ -163,7 +163,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (reviews = self.review) => {
   const container = document.getElementById('reviews-container');
   const divDescript = document.createElement('div');//To allow proper tabbing, otherwise list gets stuck
   divDescript.setAttribute('aria-label', `Review Information. Please tab over and use arrow keys to cycle through content`);
@@ -202,7 +202,7 @@ createReviewHTML = (review) => {
   observer.observe(li); //used for lazy loading all classes 'lazy-load'
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  date.innerHTML = review.createdAt;
   date.className = 'focus-item lazy-load';
   li.appendChild(date);
 
