@@ -61,31 +61,31 @@ class DBHelper {
           idb.delete(idbResTx);
           return items;
         }else{ return items = null; }
-        });
+        }).then( restaurants => {
+          console.log(restaurants);
+          if(restaurants != null){
+            dbPromise.then( db => {
+              const tx = db.transaction(idbResTx, 'readwrite');
+              const keyValStore = tx.objectStore(idbResTx);
+              restaurants.forEach( restaurant => {
+                  keyValStore.put({
+                    id: restaurant.id,
+                    name: restaurant.name,
+                    neighborhood: restaurant.neighborhood,
+                    photograph: restaurant.photograph,
+                    ext: restaurant.ext,
+                    alt: restaurant.alt,
+                    address: restaurant.address,
+                    latlng: restaurant.latlng,
+                    cuisine_type: restaurant.cuisine_type,
+                    operating_hours: restaurant.operating_hours
+                  });
+                });
+              })
+          }
+          return DBHelper.fetchReviews('reviews'); //this gaurantees a page is only initiated once.
+        })
       })
-    .then( restaurants => {
-      if(restaurants != undefined){
-        dbPromise.then( db => {
-          const tx = db.transaction(idbResTx, 'readwrite');
-          const keyValStore = tx.objectStore(idbResTx);
-          restaurants.forEach( restaurant => {
-              keyValStore.put({
-                id: restaurant.id,
-                name: restaurant.name,
-                neighborhood: restaurant.neighborhood,
-                photograph: restaurant.photograph,
-                ext: restaurant.ext,
-                alt: restaurant.alt,
-                address: restaurant.address,
-                latlng: restaurant.latlng,
-                cuisine_type: restaurant.cuisine_type,
-                operating_hours: restaurant.operating_hours
-              });
-            });
-          })
-      }
-      return DBHelper.fetchReviews('reviews'); //this gaurantees a page is only initiated once.
-    })
     // .then( restaurants => {
     //   method(null, restaurants, cuisine, neighborhood, id);
     // })
@@ -123,8 +123,9 @@ class DBHelper {
         reviewBackup = reviews;
         return;
       }
-      let items = reviews;
+      let items;
       dbPromise.then( db => {
+        items = reviews;
         const tx = db.transaction(idbRevTx, 'readwrite');
         const keyValStore = tx.objectStore(idbRevTx);
         return keyValStore.count();
@@ -133,33 +134,32 @@ class DBHelper {
           idb.delete(idbRevTx);
           return items;
         }else{ return items = null; }
-      })
-    })
-    .then( reviews => {
-      console.log(reviews);
-      if(reviews != undefined){
-        dbPromise.then( db => {
-          const tx = db.transaction(idbRevTx, 'readwrite');
-          const keyValStore = tx.objectStore(idbRevTx);
-          reviews.forEach( review => {
+      }).then( reviews => {
+        console.log(reviews);
+        if(reviews != null){
+          dbPromise.then( db => {
+            const tx = db.transaction(idbRevTx, 'readwrite');
+            const keyValStore = tx.objectStore(idbRevTx);
+            reviews.forEach( review => {
 
-            let unixDate = new Date(review.createdAt); //standardizes the Unix Time Stamp
-            let options = {weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'};
-            let formatDate = unixDate.toLocaleDateString('en-US', options);
+              let unixDate = new Date(review.createdAt); //standardizes the Unix Time Stamp
+              let options = {weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'};
+              let formatDate = unixDate.toLocaleDateString('en-US', options);
 
-            keyValStore.put({
-              id: review.id,
-              restaurant_id: review.restaurant_id,
-              name: review.name,
-              createdAt: formatDate,
-              updatedAt: review.updatedAt,
-              rating: review.rating,
-              comments: review.comments
+              keyValStore.put({
+                id: review.id,
+                restaurant_id: review.restaurant_id,
+                name: review.name,
+                createdAt: formatDate,
+                updatedAt: review.updatedAt,
+                rating: review.rating,
+                comments: review.comments
+              });
             });
-          });
-        })
-      }
-      return initPage();
+          })
+        }
+        return initPage();
+      })
     })
     .catch( error => {
       console.log(error);
