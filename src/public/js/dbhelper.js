@@ -6,18 +6,21 @@
 * @returns {object} keypath of "id"
 */
 
-let restaurantBackup; //backup if indexedDB is not supported
+let restaurantBackup, reviewBackup; //backup if indexedDB is not supported
 const idbName = 'restaurant-data';
-const idbTx = 'restaurant';
+const idbResTx = 'restaurant';
+const idbRevTx = 'review';
 
 const dbPromise = idb.open(idbName, 1, upgradeDB => {
-  upgradeDB.createObjectStore('restaurant', { keyPath: 'id' });
+  let restaurants = upgradeDB.createObjectStore(idbResTx, { keyPath: 'id' });
+  let reviews = upgradeDB.createObjectStore(idbRevTx, { keyPath: 'id' });
+  reviews.createIndex('restaurant', 'restaurant_id')
 });
 
 window.addEventListener('load', initiateDatabase);
 
 function initiateDatabase() {
-  DBHelper.fetchRestaurants();
+  DBHelper.fetchRestaurants('restaurants');
 }
 
 class DBHelper {
@@ -26,9 +29,9 @@ class DBHelper {
    * Database URL.
    * Change this to restaurants.json file location on your server.
    */
-  static get DATABASE_URL() {
+  static DATABASE_URL(dbsection) {
     const port = 1337 // Change this to your server port
-    return `http://localhost:${port}/restaurants/`;
+    return `http://localhost:${port}/${dbsection}/`;
     // const port = 1337
     // return `https://booellean.github.io/${port}/restaurants/`;
   }
@@ -37,8 +40,8 @@ class DBHelper {
    * Fetch all restaurants.
    */
   // static fetchRestaurants(method, cuisine, neighborhood, id) {
-  static fetchRestaurants() {
-    fetch(DBHelper.DATABASE_URL)
+  static fetchRestaurants(dbsection) {
+    fetch(DBHelper.DATABASE_URL(dbsection))
     .then( response => {
       const restaurants = response.json();
       return restaurants;
@@ -49,8 +52,8 @@ class DBHelper {
         return;
       }
       dbPromise.then( db => {
-        const tx = db.transaction(idbTx, 'readwrite');
-        const keyValStore = tx.objectStore(idbTx);
+        const tx = db.transaction(idbResTx, 'readwrite');
+        const keyValStore = tx.objectStore(idbResTx);
         restaurants.forEach( restaurant => {
           keyValStore.put({
             id: restaurant.id,
@@ -62,14 +65,13 @@ class DBHelper {
             address: restaurant.address,
             latlng: restaurant.latlng,
             cuisine_type: restaurant.cuisine_type,
-            operating_hours: restaurant.operating_hours,
-            reviews: restaurant.reviews
+            operating_hours: restaurant.operating_hours
           });
         });
       })
     })
     .then( () => {
-      return initPage();
+      return DBHelper.fetchReviews('reviews'); //this gaurantees a page is only initiated once.
     })
     // .then( restaurants => {
     //   method(null, restaurants, cuisine, neighborhood, id);
@@ -77,6 +79,7 @@ class DBHelper {
     .catch( error => {
       console.log(error);
       restaurantBackup = (error, null);
+      return DBHelper.fetchReviews('reviews');
     })
 
     //Original code
@@ -96,6 +99,46 @@ class DBHelper {
     // xhr.send();
   }
 
+  static fetchReviews(dbsection) {
+    fetch(DBHelper.DATABASE_URL(dbsection))
+    .then( response => {
+      const reviews = response.json();
+      return reviews;
+    })
+    .then( reviews => {
+      if(!window.indexedDB){
+        reviewBackup = reviews;
+        return;
+      }
+      dbPromise.then( db => {
+        const tx = db.transaction(idbRevTx, 'readwrite');
+        const keyValStore = tx.objectStore(idbRevTx);
+        reviews.forEach( review => {
+          keyValStore.put({
+            id: review.id,
+            restaurant_id: review.restaurant_id,
+            name: review.name,
+            createdAt: review.createdAt,
+            updatedAt: review.updatedAt,
+            rating: review.rating,
+            comments: review.comments
+          });
+        });
+      })
+    })
+    .then( () => {
+      return initPage();
+    })
+    // .then( restaurants => {
+    //   method(null, restaurants, cuisine, neighborhood, id);
+    // })
+    .catch( error => {
+      console.log(error);
+      reviewBackup = (error, null);
+      return initPage();
+    })
+  }
+
   /**
    * Fetch a restaurant by its ID.
    */
@@ -105,8 +148,8 @@ class DBHelper {
         fillFetchedRestaurantFromURL(error, null);
       } else {
         dbPromise.then( db => {
-          const tx = db.transaction(idbTx);
-          const keyValStore = tx.objectStore(idbTx);
+          const tx = db.transaction(idbResTx);
+          const keyValStore = tx.objectStore(idbResTx);
           const restaurants = keyValStore.getAll();
 
           return restaurants;
@@ -191,8 +234,8 @@ class DBHelper {
       fillUpdatedRestaurants(error, null);
     } else {
       dbPromise.then( db => {
-        const tx = db.transaction(idbTx);
-        const keyValStore = tx.objectStore(idbTx);
+        const tx = db.transaction(idbResTx);
+        const keyValStore = tx.objectStore(idbResTx);
         const restaurants = keyValStore.getAll();
 
         return restaurants;
@@ -236,8 +279,8 @@ class DBHelper {
     } else {
       // Get all neighborhoods from all restaurants
       dbPromise.then( db => {
-        const tx = db.transaction(idbTx);
-        const keyValStore = tx.objectStore(idbTx);
+        const tx = db.transaction(idbResTx);
+        const keyValStore = tx.objectStore(idbResTx);
         const restaurants = keyValStore.getAll();
 
         return restaurants;
@@ -272,8 +315,8 @@ class DBHelper {
       fetchCuisines(error, null);
     } else {
       dbPromise.then( db => {
-        const tx = db.transaction(idbTx);
-        const keyValStore = tx.objectStore(idbTx);
+        const tx = db.transaction(idbResTx);
+        const keyValStore = tx.objectStore(idbResTx);
         const restaurants = keyValStore.getAll();
 
         return restaurants;
