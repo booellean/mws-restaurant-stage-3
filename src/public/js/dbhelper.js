@@ -347,6 +347,28 @@ class DBHelper {
   }
 
   /**
+   * Fetch all reviews with proper error handling.
+   */
+
+  static fillReviewsHTML(id, error) {
+    if (error) {
+      fillReviewsHTML(error, null);
+    } else {
+      dbPromise.then( db => {
+        const tx = db.transaction(idbRevTx);
+        const keyValStore = tx.objectStore(idbRevTx);
+        const reviews = keyValStore.index('restaurant');
+
+        return reviews.getAll(id);
+
+      })
+      .then( reviews => {
+        fillReviewsHTML(reviews);
+      });
+    }
+  }
+
+  /**
    * Restaurant page URL.
    */
   static urlForRestaurant(restaurant) {
