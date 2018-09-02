@@ -256,6 +256,18 @@
     }
   }
 }
+#form-container {
+  border-bottom: 1px solid #d9d9d9;
+  border-top: 1px solid #fff;
+  padding: 30px 40px 80px;
+  h3 {
+    color: #f58500;
+    font-size: 24pt;
+    font-weight: 300;
+    letter-spacing: -1px;
+    padding-bottom: 1pt;
+  }
+}
 /* ====================== Image Fix ====================== */
 img{
   -o-object-fit: cover;
