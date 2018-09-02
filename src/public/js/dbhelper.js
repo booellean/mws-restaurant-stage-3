@@ -10,12 +10,10 @@ let restaurantBackup, reviewBackup; //backup if indexedDB is not supported
 const idbName = 'restaurant-data';
 const idbResTx = 'restaurant';
 const idbRevTx = 'review';
-const idbTokTx = 'token';
 
 const dbPromise = idb.open(idbName, 1, upgradeDB => {
   let restaurants = upgradeDB.createObjectStore(idbResTx, { keyPath: 'id' });
   let reviews = upgradeDB.createObjectStore(idbRevTx, { keyPath: 'id' });
-  restaurants.createIndex('id', 'id');
   reviews.createIndex('restaurant', 'restaurant_id')
 });
 
@@ -53,30 +51,39 @@ class DBHelper {
         restaurantBackup = restaurants;
         return;
       }
+      let items = restaurants;
       dbPromise.then( db => {
         const tx = db.transaction(idbResTx, 'readwrite');
         const keyValStore = tx.objectStore(idbResTx);
         return keyValStore.count();
       }).then( count => {
-        if( count !== restaurants.length){
-          restaurants.forEach( restaurant => {
-            keyValStore.put({
-              id: restaurant.id,
-              name: restaurant.name,
-              neighborhood: restaurant.neighborhood,
-              photograph: restaurant.photograph,
-              ext: restaurant.ext,
-              alt: restaurant.alt,
-              address: restaurant.address,
-              latlng: restaurant.latlng,
-              cuisine_type: restaurant.cuisine_type,
-              operating_hours: restaurant.operating_hours
-            });
-          });
-        }else{ return; }
+        if( count != items.length){
+          idb.delete(idbResTx);
+          return items;
+        }else{ return items = null; }
         });
       })
-    .then( () => {
+    .then( restaurants => {
+      if(restaurants != undefined){
+        dbPromise.then( db => {
+          const tx = db.transaction(idbResTx, 'readwrite');
+          const keyValStore = tx.objectStore(idbResTx);
+          restaurants.forEach( restaurant => {
+              keyValStore.put({
+                id: restaurant.id,
+                name: restaurant.name,
+                neighborhood: restaurant.neighborhood,
+                photograph: restaurant.photograph,
+                ext: restaurant.ext,
+                alt: restaurant.alt,
+                address: restaurant.address,
+                latlng: restaurant.latlng,
+                cuisine_type: restaurant.cuisine_type,
+                operating_hours: restaurant.operating_hours
+              });
+            });
+          })
+      }
       return DBHelper.fetchReviews('reviews'); //this gaurantees a page is only initiated once.
     })
     // .then( restaurants => {
@@ -116,12 +123,24 @@ class DBHelper {
         reviewBackup = reviews;
         return;
       }
+      let items = reviews;
       dbPromise.then( db => {
         const tx = db.transaction(idbRevTx, 'readwrite');
         const keyValStore = tx.objectStore(idbRevTx);
         return keyValStore.count();
       }).then( count => {
-        if( count !== reviews.length){
+        if( count != items.length){
+          idb.delete(idbRevTx);
+          return items;
+        }else{ return items = null; }
+      })
+    })
+    .then( reviews => {
+      console.log(reviews);
+      if(reviews != undefined){
+        dbPromise.then( db => {
+          const tx = db.transaction(idbRevTx, 'readwrite');
+          const keyValStore = tx.objectStore(idbRevTx);
           reviews.forEach( review => {
 
             let unixDate = new Date(review.createdAt); //standardizes the Unix Time Stamp
@@ -138,10 +157,8 @@ class DBHelper {
               comments: review.comments
             });
           });
-        }else{ return; }
-      })
-    })
-    .then( () => {
+        })
+      }
       return initPage();
     })
     .catch( error => {
