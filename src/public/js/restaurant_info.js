@@ -249,3 +249,50 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+/**
+ * Submit review of restuarant from form.
+ */
+
+ submitReview = (e) => {
+  let url = window.location.search;
+  let id = url.split("?id=")[1]; //find id from window location
+  let name = document.querySelector('#name').value;
+  let rating = document.querySelector('#rating').value;
+  let comments = document.querySelector('#comments').value;
+  let time = Math.round((new Date()).getTime() / 1000); //Math was found through https://www.electrictoolbox.com/unix-timestamp-javascript/
+
+  console.log(id, name, rating, comments, time);
+
+  fetch(DBHelper.DATABASE_URL('reviews'))
+  .then( response => {
+    return response.json();
+  })
+  .then( reviews => {
+    let review = {
+      id: reviews.length + 1,
+      restaurant_id: id,
+      name: name,
+      createdAt: time,
+      updatedAt: time,
+      rating: rating,
+      comments: comments
+    };
+    console.log(review);
+    fetch(DBHelper.DATABASE_URL('reviews'), {
+      method: 'POST',
+      body: JSON.stringify(review)
+    })
+    .then( response => {
+      console.log(response);
+    })
+    .catch( error => {
+      console.log(error);
+    })
+  })
+  .catch( error => {
+    console.log(error);
+  });
+
+  e.preventDefault();
+ }
