@@ -114,11 +114,16 @@ class DBHelper {
         const tx = db.transaction(idbRevTx, 'readwrite');
         const keyValStore = tx.objectStore(idbRevTx);
         reviews.forEach( review => {
+
+          let unixDate = new Date(review.createdAt); //standardizes the Unix Time Stamp
+          let options = {weekday: 'long', month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric'};
+          let formatDate = unixDate.toLocaleDateString('en-US', options);
+
           keyValStore.put({
             id: review.id,
             restaurant_id: review.restaurant_id,
             name: review.name,
-            createdAt: review.createdAt,
+            createdAt: formatDate,
             updatedAt: review.updatedAt,
             rating: review.rating,
             comments: review.comments
