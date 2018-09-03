@@ -147,14 +147,14 @@
       <!-- Beginning form-->
       <section id="form-container" tabindex="-1">
         <h3 id="form-name">Add Review</h3>
-        <form id="review-form" onsubmit="submitReview()">
+        <form id="review-form">
           <label for="name">Name:</label>
           <input type="text" id="name" name="name">
           <label for="rating">Rating:</label>
           <input type="range" min="0" max="5" id="rating">
           <label for="comments">Comments:</label>
           <textarea id="comments"></textarea>
-          <button id="submit-review">Submit Rating!</button>
+          <button id="submit-review" onclick="submitReview(event)">Submit Rating!</button>
         </form>
       </section>
       <!-- end form-->
