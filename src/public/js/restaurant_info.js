@@ -272,7 +272,6 @@ getParameterByName = (name, url) => {
   let time = Math.round((new Date()).getTime() / 1000); //Math was found through https://www.electrictoolbox.com/unix-timestamp-javascript/
 
   let review = {
-    id: 1,
     restaurant_id: id,
     name: name,
     createdAt: time,
