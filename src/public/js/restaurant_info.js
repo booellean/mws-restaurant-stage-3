@@ -13,7 +13,8 @@ var newMap;
 
 //both InitiateDatabase and submitReview uses this data, keep in global scope
 let url = window.location.search;
-let id = url.split("?id=")[1]; //find id from window location
+let stringID = url.split("?id=")[1];
+let id = parseInt(stringID); //find id from window location
 
 window.addEventListener('load', initiateDatabase);
 function initiateDatabase() {
@@ -266,7 +267,7 @@ getParameterByName = (name, url) => {
 
  submitReview = (e) => {
   let name = document.querySelector('#name').value;
-  let rating = document.querySelector('#rating').value;
+  let rating = parseInt(document.querySelector('#rating').value);
   let comments = document.querySelector('#comments').value;
   let time = Math.round((new Date()).getTime() / 1000); //Math was found through https://www.electrictoolbox.com/unix-timestamp-javascript/
 
