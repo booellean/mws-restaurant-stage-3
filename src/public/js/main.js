@@ -15,6 +15,13 @@ var markers = []
 /**
  * Fetch neighborhoods and cuisines as soon as database is created
  */
+
+window.addEventListener('load', initiateDatabase);
+
+function initiateDatabase() {
+  DBHelper.fetchRestaurants('restaurants');
+}
+
 function initPage() {
   initMap(); // added
   DBHelper.fetchNeighborhoods();

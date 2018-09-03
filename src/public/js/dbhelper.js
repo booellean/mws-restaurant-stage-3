@@ -17,12 +17,6 @@ const dbPromise = idb.open(idbName, 1, upgradeDB => {
   reviews.createIndex('restaurant', 'restaurant_id')
 });
 
-window.addEventListener('load', initiateDatabase);
-
-function initiateDatabase() {
-  DBHelper.fetchRestaurants('restaurants');
-}
-
 class DBHelper {
 
   /**
@@ -83,7 +77,7 @@ class DBHelper {
                 });
               })
           }
-          return DBHelper.fetchReviews('reviews'); //this gaurantees a page is only initiated once.
+          return initPage(); //this gaurantees a page is only initiated once.
         })
       })
     // .then( restaurants => {
@@ -92,7 +86,7 @@ class DBHelper {
     .catch( error => {
       console.log(error);
       restaurantBackup = (error, null);
-      return DBHelper.fetchReviews('reviews');
+      return initPage();
     })
 
     //Original code
@@ -158,13 +152,13 @@ class DBHelper {
             });
           })
         }
-        return initPage();
+        return DBHelper.fetchRestaurants('restaurants');
       })
     })
     .catch( error => {
       console.log(error);
       reviewBackup = (error, null);
-      return initPage();
+      return DBHelper.fetchRestaurants('restaurants');
     })
   }
 
@@ -395,6 +389,28 @@ class DBHelper {
         fillReviewsHTML(reviews);
       });
     }
+  }
+
+  /**
+   * Submit Review for restaurant
+   */
+
+  static submitReview(review){
+    fetch(DBHelper.DATABASE_URL('reviews'), {
+        method: 'POST',
+        body: JSON.stringify(review),
+        mode: 'cors',
+        redirect: 'follow',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then( response => {
+        console.log(response);
+      })
+      .catch( error => {
+        console.log(error);
+      })
   }
 
   /**

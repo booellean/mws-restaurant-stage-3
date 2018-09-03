@@ -10,6 +10,12 @@ var newMap;
 /**
  * Fetch neighborhoods and cuisines as soon as database is created
  */
+window.addEventListener('load', initiateDatabase);
+
+function initiateDatabase() {
+  DBHelper.fetchReviews('reviews');
+}
+
 function initPage() {
   fetchRestaurantFromURL();
 }
@@ -262,37 +268,19 @@ getParameterByName = (name, url) => {
   let comments = document.querySelector('#comments').value;
   let time = Math.round((new Date()).getTime() / 1000); //Math was found through https://www.electrictoolbox.com/unix-timestamp-javascript/
 
+  let review = {
+    id: 1,
+    restaurant_id: id,
+    name: name,
+    createdAt: time,
+    updatedAt: time,
+    rating: rating,
+    comments: comments
+  };
+
   console.log(id, name, rating, comments, time);
 
-  fetch(DBHelper.DATABASE_URL('reviews'))
-  .then( response => {
-    return response.json();
-  })
-  .then( reviews => {
-    let review = {
-      id: reviews.length + 1,
-      restaurant_id: id,
-      name: name,
-      createdAt: time,
-      updatedAt: time,
-      rating: rating,
-      comments: comments
-    };
-    console.log(review);
-    fetch(DBHelper.DATABASE_URL('reviews'), {
-      method: 'POST',
-      body: JSON.stringify(review)
-    })
-    .then( response => {
-      console.log(response);
-    })
-    .catch( error => {
-      console.log(error);
-    })
-  })
-  .catch( error => {
-    console.log(error);
-  });
-
+  DBHelper.submitReview(review);
   e.preventDefault();
+
  }
