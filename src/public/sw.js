@@ -67,12 +67,14 @@ self.addEventListener('activate', (event) =>{
 * @returns {string} returns cache if it is found, else caches the event.request from the server if it is not found
 */
 self.addEventListener('fetch', (event) =>{
-  event.respondWith(
-    caches.open(staticCache).then( (cache) =>{
-      return fetch(event.request).then( (res) =>{
-        cache.put(event.request, res.clone());
-        return res;
+  if(event.request.method === 'GET'){ //Stops interceptions of POST requests
+    event.respondWith(
+      caches.open(staticCache).then( (cache) =>{
+        return fetch(event.request).then( (res) =>{
+          cache.put(event.request, res.clone());
+          return res;
+        })
       })
-    })
-  );
+    );
+  }
 });
