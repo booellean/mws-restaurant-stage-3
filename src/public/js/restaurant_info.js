@@ -10,10 +10,14 @@ var newMap;
 /**
  * Fetch neighborhoods and cuisines as soon as database is created
  */
-window.addEventListener('load', initiateDatabase);
 
+//both InitiateDatabase and submitReview uses this data, keep in global scope
+let url = window.location.search;
+let id = url.split("?id=")[1]; //find id from window location
+
+window.addEventListener('load', initiateDatabase);
 function initiateDatabase() {
-  DBHelper.fetchReviews('reviews');
+  DBHelper.fetchReviews(`reviews/?restaurant_id=${id}`);
 }
 
 function initPage() {
@@ -261,8 +265,6 @@ getParameterByName = (name, url) => {
  */
 
  submitReview = (e) => {
-  let url = window.location.search;
-  let id = url.split("?id=")[1]; //find id from window location
   let name = document.querySelector('#name').value;
   let rating = document.querySelector('#rating').value;
   let comments = document.querySelector('#comments').value;

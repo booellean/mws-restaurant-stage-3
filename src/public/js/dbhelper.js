@@ -25,7 +25,7 @@ class DBHelper {
    */
   static DATABASE_URL(dbsection) {
     const port = 1337 // Change this to your server port
-    return `http://localhost:${port}/${dbsection}/`;
+    return `http://localhost:${port}/${dbsection}`;
     // const port = 1337
     // return `https://booellean.github.io/${port}/restaurants/`;
   }

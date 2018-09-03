@@ -19,7 +19,7 @@ var markers = []
 window.addEventListener('load', initiateDatabase);
 
 function initiateDatabase() {
-  DBHelper.fetchRestaurants('restaurants');
+  DBHelper.fetchRestaurants('restaurants/');
 }
 
 function initPage() {
