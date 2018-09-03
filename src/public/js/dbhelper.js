@@ -10,12 +10,38 @@ let restaurantBackup, reviewBackup; //backup if indexedDB is not supported
 const idbName = 'restaurant-data';
 const idbResTx = 'restaurant';
 const idbRevTx = 'review';
+const idbRevForm = 'reviews-to-submit'; //holds reviews that need to be submitted when offline
 
 const dbPromise = idb.open(idbName, 1, upgradeDB => {
   let restaurants = upgradeDB.createObjectStore(idbResTx, { keyPath: 'id' });
   let reviews = upgradeDB.createObjectStore(idbRevTx, { keyPath: 'id' });
-  reviews.createIndex('restaurant', 'restaurant_id')
+  reviews.createIndex('restaurant', 'restaurant_id');
+  let reviewsToSubmit = upgradeDB.createObjectStore(idbRevForm, { keyPath: 'createdAt' });
 });
+
+
+/**
+* @description Check database to see if any prior form data exists, then delete data
+*/
+window.onload = function(){
+  dbPromise.then( db =>{
+    return db.transaction(idbRevForm)
+                    .objectStore(idbRevForm)
+                    .getAll(); //cannot get individual items using variables, need to get all
+  })
+  .then( allReviews =>{
+    if(allReviews.length == 0){ return }
+    let reviews = allReviews;
+    dbPromise.then( db => {
+      const tx = db.transaction(idbRevForm, 'readwrite');
+      const keyValStore = tx.objectStore(idbRevForm);
+      reviews.forEach( review =>{
+        DBHelper.submitReview(review);
+        keyValStore.delete(review.createdAt);
+      })
+    })
+  })
+}
 
 class DBHelper {
 
@@ -411,6 +437,18 @@ class DBHelper {
     })
     .catch( error => {
       console.log(error);
+      let catchdata = data;
+      dbPromise.then( db =>{
+        const tx = db.transaction(idbRevForm, 'readwrite');
+        tx.objectStore(idbRevForm).put({
+          restaurant_id: catchdata.restaurant_id,
+          name: catchdata.name,
+          createdAt: catchdata.createdAt,
+          updatedAt: catchdata.updatedAt,
+          rating: catchdata.rating,
+          comments: catchdata.comments
+        })
+      })
     })
   }
 
