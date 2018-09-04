@@ -246,9 +246,9 @@ createRestaurantHTML = (restaurant) => {
 
   const favorite = document.createElement('button');
 
-  (favBoolean == 'false' || favBoolean == undefined)  ? favorite.className = 'star-empty focus-item' : favorite.className = 'star-full focus-item';
-  (favBoolean == 'false' || favBoolean == undefined)  ? favWord = 'not Favorite' : favWord = 'Favorite';
-  (favBoolean == 'false' || favBoolean == undefined)  ? favorite.setAttribute('data-name', 'false') : favorite.setAttribute('data-name', 'true');
+  (favBoolean == false || favBoolean == undefined)  ? favorite.className = 'star-empty focus-item' : favorite.className = 'star-full focus-item';
+  (favBoolean == false || favBoolean == undefined)  ? favWord = 'not Favorite' : favWord = 'Favorite';
+  (favBoolean == false || favBoolean == undefined)  ? favorite.setAttribute('data-name', 'false') : favorite.setAttribute('data-name', 'true');
 
   favorite.setAttribute('id', `button${restaurant.id}`);
   favorite.setAttribute('onclick',`DBHelper.toggleFavorite(${restaurant.id},'${safeName}', event)`);
