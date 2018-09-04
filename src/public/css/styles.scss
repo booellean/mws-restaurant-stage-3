@@ -68,6 +68,13 @@
       }
     }
   }
+  .skip-link{
+    position: absolute;
+    height: 0;
+    width: 0;
+    right:-1em;
+    top: -1em;
+  }
 }
 /* ====================== Restaurant Filtering ====================== */
 .filter-options {
@@ -294,6 +301,7 @@
     }
   }
 }
+/* ====================== Review Details ====================== */
 #reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
@@ -324,41 +332,63 @@
     }
   }
 }
+/* ====================== Form Details ====================== */
 #form-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 30px 40px 80px;
   display: flex;
   flex-flow: column nowrap;
-  div{
-    width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    padding: 10px 0px;
+  .skip-link{
+    position: absolute;
+    height: 0;
+    width: 0;
+    transform: translate(100vw);
   }
-  h3{
-    color: #f58500;
-    font-size: 24pt;
-    font-weight: 300;
-    letter-spacing: -1px;
-    padding-bottom: 1pt;
-  }
-  label{
-    width: 19%;
-    display: block;
-  }
-  label[for=comments]{
-    width: 100%;
-  }
-  input[type=text], input[type=range]{
-    width: 80%;
-    display: block;
-  }
-  textarea{
-    width: 100%;
-    min-width: 100%;
-    max-width: 100%;
-    min-height: 20em;
+  form{
+    div{
+      width: 100%;
+      display: flex;
+      flex-flow: row wrap;
+      padding: 10px 0px;
+    }
+    h3{
+      color: #f58500;
+      font-size: 24pt;
+      font-weight: 300;
+      letter-spacing: -1px;
+      padding-bottom: 1pt;
+    }
+    label{
+      width: 19%;
+      display: block;
+    }
+    label[for=comments]{
+      width: 100%;
+    }
+    input[type=text], input[type=range]{
+      width: 80%;
+      display: block;
+    }
+    textarea{
+      width: 100%;
+      min-width: 100%;
+      max-width: 100%;
+      min-height: 20em;
+    }
+    button{
+      background-color: orange;
+      border-bottom: 3px solid #eee;
+      color: #fff;
+      display: block;
+      width: 8rem;
+      font-size: 13pt;
+      margin: 15px 0 0;
+      padding: 8px 30px 10px;
+      text-align: center;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
   }
 }
 /* ====================== Image Fix ====================== */
@@ -375,11 +405,4 @@ img{
   overflow: hidden;
   height: 0;
   width: 0;
-}
-.skip-link{
-  position: absolute;
-  height: 0;
-  width: 0;
-  right:-1em;
-  top: -1em;
 }
