@@ -29,7 +29,7 @@
       }
       body,td,th,p{
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 10pt;
+        font-size: 15pt;
         color: #333;
         line-height: 1.5;
       }
@@ -48,7 +48,7 @@
       }
       ul li {
         font-family: Arial, Helvetica, sans-serif;
-        font-size: 10pt;
+        font-size: 15pt;
         color: #333;
       }
       a {
@@ -83,7 +83,7 @@
       #footer {
         background-color: #444;
         color: #aaa;
-        font-size: 8pt;
+        font-size: 10pt;
         letter-spacing: 1px;
         padding: 25px;
         text-align: center;
@@ -91,6 +91,8 @@
         width: 100vw;
         z-index: 1000;
         bottom: 0;
+        box-sizing: border-box;
+        display: block;
       }
       #footer a{
         width: 100%;
@@ -148,13 +150,21 @@
       <section id="form-container" tabindex="-1">
         <h3 id="form-name">Add Review</h3>
         <form id="review-form">
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="name" aria-label="Please fill out your name">
-          <label for="rating">Rating:</label>
-          <input type="range" min="0" max="5" id="rating" aria-label="Please select your experience on a scale of 0 to 5 using the arrow keys">
-          <label for="comments">Comments:</label>
-          <textarea id="comments" aria-label="Please fill out any comments you may have about the Restaurant"></textarea>
-          <button id="submit-review" onclick="submitReview(event)" aria-label="Button will submit your review">Submit Rating!</button>
+          <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" aria-label="Please fill out your name">
+          </div>
+          <div>
+            <label for="rating">Rating:</label>
+            <input type="range" min="0" max="5" value="0" id="rating" aria-label="Please select your experience on a scale of 0 to 5 using the arrow keys">
+          </div>
+          <div>
+            <label for="comments">Comments:</label>
+            <textarea id="comments" aria-label="Please fill out any comments you may have about the Restaurant"></textarea>
+          </div>
+          <div>
+            <button id="submit-review" onclick="submitReview(event)" aria-label="Button will submit your review">Submit Rating!</button>
+          </div>
         </form>
       </section>
       <!-- end form-->
