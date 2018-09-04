@@ -122,13 +122,18 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   let favBoolean = restaurant.isfavorite || false; //in case it hasn't been set yet
   let favWord;
+  let safeName = String(restaurant.name).replace("'", "");
+  console.log(safeName);
+
   const favorite = document.createElement('button');
+
   favBoolean == false ? favorite.className = 'star-empty focus-item' : favorite.className = 'star-full focus-item';
   favBoolean == false ? favWord = 'not Favorite' : favWord = 'Favorite';
+
   favorite.setAttribute('id', `button${restaurant.id}`);
   favorite.setAttribute('data-name', favBoolean);
   favorite.setAttribute('aria-label',`Toggle Favorites: ${restaurant.name} is currently ${favWord}`);
-  favorite.setAttribute('onclick',`DBHelper.toggleFavorite(${restaurant.id}, '${restaurant.name}', event)`);
+  favorite.setAttribute('onclick',`DBHelper.toggleFavorite(${restaurant.id}, '${safeName}', event)`);
 
   restaurantContainer.prepend(favorite);
   restaurantContainer.prepend(divDescript);
