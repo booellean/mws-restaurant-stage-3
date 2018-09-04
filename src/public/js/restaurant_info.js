@@ -153,8 +153,16 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const reviewForm = document.getElementById('form-container');
   const divDescriptTwo = document.createElement('div');//To allow proper tabbing, otherwise list gets stuck
   divDescriptTwo.setAttribute('aria-label', `${restaurant.name} review form. Please describe your experience at this restaurant.`);
-  divDescriptTwo.className = 'list-item-describor focus-item';
+  divDescriptTwo.setAttribute('tabindex', '0')
+  divDescriptTwo.className = 'list-item-describor';
 
+  const skiplink = document.createElement('a');
+  skiplink.className = 'skip-link';
+  skiplink.href = '#footer';
+  skiplink.setAttribute('aria-label', 'Skip link: skip form section');
+  skiplink.setAttribute('tabindex', '0');
+
+  reviewForm.prepend(skiplink);
   reviewForm.prepend(divDescriptTwo);
 
   // fill operating hours
