@@ -174,6 +174,7 @@
         height: 25px;
         position: absolute;
         border: none;
+        outline: none;
         transform: translate(-29px, 5px);
         background-color: transparent;
         cursor: pointer;
@@ -222,13 +223,47 @@
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 50px 40px 30px;
+  button {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    border: none;
+    outline: none;
+    transform: translate(-20px, 10px);
+    background-color: transparent;
+    cursor: pointer;
+  }
+  .star-empty::before {
+    content: '★';
+    font-size: 3.6em;
+    position: absolute;
+    transform: translate(-20px, -38px);
+    color: #ccc;
+    transition: color .2s ease-in-out;
+  }
+  .star-empty:hover::before{
+    color: #ededed;
+    text-shadow: 0 0 3px #939393;
+  }
+  .star-empty:active::before{
+    color: #ededed;
+    text-shadow: 0 0 3px #f18200;
+  }
+  .star-full::before{
+    content: '★';
+    font-size: 3.6em;
+    position: absolute;
+    transform: translate(-20px, -38px);
+    transition: color .2s ease-in-out;
+    color: #ffd000;
+  }
   #restaurant-name {
     color: #f18200;
     font-family: Arial,sans-serif;
     font-size: 20pt;
     font-weight: 200;
     letter-spacing: 0;
-    margin: 15px 0 30px;
+    margin: 15px 0 20px;
     text-transform: uppercase;
     line-height: 1.1;
     text-align: center;
