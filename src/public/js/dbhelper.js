@@ -97,7 +97,8 @@ class DBHelper {
                     address: restaurant.address,
                     latlng: restaurant.latlng,
                     cuisine_type: restaurant.cuisine_type,
-                    operating_hours: restaurant.operating_hours
+                    operating_hours: restaurant.operating_hours,
+                    is_favorite: restaurant.is_favorite
                   });
                 });
               })
@@ -456,6 +457,7 @@ class DBHelper {
     let button = document.querySelector(`#button${id}`);
     let favBoolean = button.getAttribute('data-name');
     let restaurant = name;
+    let boolean;
 
     switch(favBoolean){
       case 'false':
@@ -463,18 +465,21 @@ class DBHelper {
       button.setAttribute('aria-label', `Favorite: ${restaurant}`);
       button.classList.remove('star-empty');
       button.classList.add('star-full');
+      boolean = true;
       break;
       case 'true':
       button.setAttribute('data-name', 'false');
       button.setAttribute('aria-label', `Not Favorite: ${restaurant}`);
       button.classList.remove('star-full');
       button.classList.add('star-empty');
+      boolean = false;
       break;
       default:
         console.log('boolean is invalid???');
     }
+    console.log(boolean);
 
-    fetch(DBHelper.DATABASE_URL(`restaurants/${id}/?isfavorite=${favBoolean}`), {
+    fetch(DBHelper.DATABASE_URL(`restaurants/${id}/?is_favorite=${boolean}`), {
       method: 'PUT',
       mode: 'cors',
       redirect: 'follow'

@@ -120,18 +120,18 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   divDescript.className = 'list-item-describor focus-item';
   observer.observe(restaurantContainer); //used for lazy loading all classes 'lazy-load'
 
-  let favBoolean = restaurant.isfavorite || false; //in case it hasn't been set yet
+  let favBoolean = restaurant.is_favorite;
   let favWord;
   let safeName = String(restaurant.name).replace("'", "");
   console.log(safeName);
 
   const favorite = document.createElement('button');
 
-  favBoolean == false ? favorite.className = 'star-empty focus-item' : favorite.className = 'star-full focus-item';
-  favBoolean == false ? favWord = 'not Favorite' : favWord = 'Favorite';
+  (favBoolean == 'false' || favBoolean == undefined) ? favorite.className = 'star-empty focus-item' : favorite.className = 'star-full focus-item';
+  (favBoolean == 'false' || favBoolean == undefined) ? favWord = 'not Favorite' : favWord = 'Favorite';
+  (favBoolean == 'false' || favBoolean == undefined) ? favorite.setAttribute('data-name', 'false') : favorite.setAttribute('data-name', 'true');
 
   favorite.setAttribute('id', `button${restaurant.id}`);
-  favorite.setAttribute('data-name', favBoolean);
   favorite.setAttribute('aria-label',`Toggle Favorites: ${restaurant.name} is currently ${favWord}`);
   favorite.setAttribute('onclick',`DBHelper.toggleFavorite(${restaurant.id}, '${safeName}', event)`);
 
