@@ -132,6 +132,10 @@ class DBHelper {
   }
 
   static fetchReviews(dbsection) {
+    let url = window.location.search;
+    let stringID = url.split("?id=")[1];
+    let id = parseInt(stringID);
+
     fetch(DBHelper.DATABASE_URL(dbsection))
     .then( response => {
       const reviews = response.json();
@@ -148,10 +152,8 @@ class DBHelper {
         const tx = db.transaction(idbRevTx, 'readwrite');
         const keyValStore = tx.objectStore(idbRevTx);
         return keyValStore.count();
-      }).then( count => {
-        if( count != items.length){
+      }).then( count => { //will probably use count to delete unnecessary items later.
           return items;
-        }else{ return items = null; } //prevents unneccessary writing
       }).then( reviews => {
         console.log(reviews);
         if(reviews != null){
