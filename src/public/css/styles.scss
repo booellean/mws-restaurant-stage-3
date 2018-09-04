@@ -169,6 +169,39 @@
         text-decoration: none;
         text-transform: uppercase;
       }
+      button {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        border: none;
+        transform: translate(-29px, 5px);
+        background-color: transparent;
+        cursor: pointer;
+      }
+      .star-empty::before {
+        content: '★';
+        font-size: 2.5em;
+        position: absolute;
+        transform: translate(-13px, -25px);
+        color: #ccc;
+        transition: color .2s ease-in-out;
+      }
+      .star-empty:hover::before{
+        color: #ededed;
+        text-shadow: 0 0 3px #939393;
+      }
+      .star-empty:active::before{
+        color: #ededed;
+        text-shadow: 0 0 3px #f18200;
+      }
+      .star-full::before{
+        content: '★';
+        font-size: 2.5em;
+        position: absolute;
+        transform: translate(-13px, -25px);
+        transition: color .2s ease-in-out;
+        color: #ffd000;
+      }
     }
     p {
       margin: 0;
