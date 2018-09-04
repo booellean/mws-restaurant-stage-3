@@ -16,9 +16,6 @@ let url = window.location.search;
 let stringID = url.split("?id=")[1];
 let id = parseInt(stringID); //find id from window location
 
-//to avoid many fetch requests, set variable when function fillRestaurantHTML() is called and change during toggle.
-let favBoolean;
-
 window.addEventListener('load', initiateDatabase);
 function initiateDatabase() {
   DBHelper.fetchReviews(`reviews/?restaurant_id=${id}`);
@@ -124,11 +121,11 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   divDescript.className = 'list-item-describor focus-item';
   observer.observe(restaurantContainer); //used for lazy loading all classes 'lazy-load'
 
-  favBoolean = restaurant.isfavorite || false; //global variable for minimal fetching.
-
+  let favBoolean = restaurant.isfavorite || false; //in case it hasn't been set yet
   const favorite = document.createElement('button');
   favBoolean == false ? favorite.className = 'star-empty focus-item' : favorite.className = 'star-full focus-item';
   favorite.setAttribute('id', `button${restaurant.id}`);
+  favorite.setAttribute('data-name', favBoolean);
   favorite.setAttribute('aria-label', `Setting ${restaurant.name} as favorite.`);
   favorite.setAttribute('onclick',`toggleFavorite(${restaurant.id}, event)`);
 
@@ -280,14 +277,16 @@ getParameterByName = (name, url) => {
 
   toggleFavorite = (id, e) => {
     let button = document.querySelector(`#button${id}`);
+    let favBoolean = button.getAttribute('data-name');
+    console.log(favBoolean);
     switch(favBoolean){
-      case false:
-      favBoolean = true;
+      case 'false':
+      button.setAttribute('data-name', 'true');
       button.classList.remove('star-empty');
       button.classList.add('star-full');
       break;
-      case true:
-      favBoolean = false;
+      case 'true':
+      button.setAttribute('data-name', 'false');
       button.classList.remove('star-full');
       button.classList.add('star-empty');
       break;
