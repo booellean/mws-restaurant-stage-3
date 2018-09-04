@@ -452,35 +452,19 @@ class DBHelper {
     })
   }
 
-    // fetch(DBHelper.DATABASE_URL('reviews/'))
-    // .then( response => {
-    //   let reviews = response.json();
-    //   console.log(reviews);
-    //   return reviews;
-    // }).then( reviews => {
-    //   console.log(reviews.length);
-    //   return reviews.length;
-    // }).then( length => {
-    //   data.id += length; //By having this process in this step of the fetch request, ids with the same values can be avoided.
-    //   fetch(DBHelper.DATABASE_URL('reviews/'), {
-    //     method: 'POST',
-    //     body: JSON.stringify(data),
-    //     mode: 'cors',
-    //     redirect: 'follow',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     }
-    //   })
-    //   .then( response => {
-    //     console.log(response);
-    //   })
-    //   .catch( error => {
-    //     console.log(error);
-    //   })
-    // })
-    // .catch( error => {
-    //   console.log(error);
-    // })
+  static toggleFavorite(id, boolean){
+    fetch(DBHelper.DATABASE_URL(`restaurants/${id}/?isfavorite=${boolean}`), {
+      method: 'PUT',
+      mode: 'cors',
+      redirect: 'follow'
+    })
+    .then( response => {
+      console.log(response)
+    })
+    .catch( error => {
+      console.log(error);
+    })
+  }
 
   /**
    * Restaurant page URL.

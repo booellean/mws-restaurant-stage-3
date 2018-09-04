@@ -16,6 +16,9 @@ let url = window.location.search;
 let stringID = url.split("?id=")[1];
 let id = parseInt(stringID); //find id from window location
 
+//to avoid many fetch requests, set variable when function fillRestaurantHTML() is called and change during toggle.
+let favBoolean;
+
 window.addEventListener('load', initiateDatabase);
 function initiateDatabase() {
   DBHelper.fetchReviews(`reviews/?restaurant_id=${id}`);
@@ -119,8 +122,18 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const divDescript = document.createElement('div');//To allow proper tabbing, otherwise list gets stuck
   divDescript.setAttribute('aria-label', `${restaurant.name} details section. Please Use Arrow Keys to View Items.`);
   divDescript.className = 'list-item-describor focus-item';
-  restaurantContainer.prepend(divDescript);
   observer.observe(restaurantContainer); //used for lazy loading all classes 'lazy-load'
+
+  favBoolean = restaurant.isfavorite || false; //global variable for minimal fetching.
+
+  const favorite = document.createElement('button');
+  favBoolean == false ? favorite.className = 'star-empty focus-item' : favorite.className = 'star-full focus-item';
+  favorite.setAttribute('id', `button${restaurant.id}`);
+  favorite.setAttribute('aria-label', `Setting ${restaurant.name} as favorite.`);
+  favorite.setAttribute('onclick',`toggleFavorite(${restaurant.id}, event)`);
+
+  restaurantContainer.prepend(favorite);
+  restaurantContainer.prepend(divDescript);
 
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
@@ -260,6 +273,31 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
+
+/**
+ * Toggle restaurant is favorite or not.
+ */
+
+  toggleFavorite = (id, e) => {
+    let button = document.querySelector(`#button${id}`);
+    switch(favBoolean){
+      case false:
+      favBoolean = true;
+      button.classList.remove('star-empty');
+      button.classList.add('star-full');
+      break;
+      case true:
+      favBoolean = false;
+      button.classList.remove('star-full');
+      button.classList.add('star-empty');
+      break;
+      default:
+        console.log('boolean is invalid???');
+    }
+
+    DBHelper.toggleFavorite(id, favBoolean);
+    e.preventDefault();
+  }
 
 /**
  * Submit review of restuarant from form.
