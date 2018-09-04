@@ -149,12 +149,12 @@
         <h3 id="form-name">Add Review</h3>
         <form id="review-form">
           <label for="name">Name:</label>
-          <input type="text" id="name" name="name">
+          <input type="text" id="name" name="name" aria-label="Please fill out your name">
           <label for="rating">Rating:</label>
-          <input type="range" min="0" max="5" id="rating">
+          <input type="range" min="0" max="5" id="rating" aria-label="Please select your experience on a scale of 0 to 5 using the arrow keys">
           <label for="comments">Comments:</label>
-          <textarea id="comments"></textarea>
-          <button id="submit-review" onclick="submitReview(event)">Submit Rating!</button>
+          <textarea id="comments" aria-label="Please fill out any comments you may have about the Restaurant"></textarea>
+          <button id="submit-review" onclick="submitReview(event)" aria-label="Button will submit your review">Submit Rating!</button>
         </form>
       </section>
       <!-- end form-->
