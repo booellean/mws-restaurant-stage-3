@@ -47,7 +47,6 @@ initMap = (error, restaurant) => {
       }).addTo(newMap);
       fillBreadcrumb();
       DBHelper.mapMarkerForRestaurant(self.restaurant, self.newMap);
-      restaurantObjects(); //creates focus objects for document
 
       const mapBox = document.getElementById('map');
       const skiplink = document.createElement('a');
@@ -218,6 +217,8 @@ fillReviewsHTML = (reviews = self.review) => {
     ul.appendChild(createReviewHTML(review));
   });
   container.appendChild(ul);
+
+  restaurantObjects(); //creates focus objects for document
 }
 
 /**
