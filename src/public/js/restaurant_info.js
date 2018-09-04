@@ -127,7 +127,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   favorite.setAttribute('id', `button${restaurant.id}`);
   favorite.setAttribute('data-name', favBoolean);
   favorite.setAttribute('aria-label', `Setting ${restaurant.name} as favorite.`);
-  favorite.setAttribute('onclick',`toggleFavorite(${restaurant.id}, event)`);
+  favorite.setAttribute('onclick',`DBHelper.toggleFavorite(${restaurant.id}, event)`);
 
   restaurantContainer.prepend(favorite);
   restaurantContainer.prepend(divDescript);
@@ -270,33 +270,6 @@ getParameterByName = (name, url) => {
     return '';
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
-
-/**
- * Toggle restaurant is favorite or not.
- */
-
-  toggleFavorite = (id, e) => {
-    let button = document.querySelector(`#button${id}`);
-    let favBoolean = button.getAttribute('data-name');
-    console.log(favBoolean);
-    switch(favBoolean){
-      case 'false':
-      button.setAttribute('data-name', 'true');
-      button.classList.remove('star-empty');
-      button.classList.add('star-full');
-      break;
-      case 'true':
-      button.setAttribute('data-name', 'false');
-      button.classList.remove('star-full');
-      button.classList.add('star-empty');
-      break;
-      default:
-        console.log('boolean is invalid???');
-    }
-
-    DBHelper.toggleFavorite(id, favBoolean);
-    e.preventDefault();
-  }
 
 /**
  * Submit review of restuarant from form.

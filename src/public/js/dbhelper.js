@@ -452,8 +452,26 @@ class DBHelper {
     })
   }
 
-  static toggleFavorite(id, boolean){
-    fetch(DBHelper.DATABASE_URL(`restaurants/${id}/?isfavorite=${boolean}`), {
+  static toggleFavorite(id, e){
+    let button = document.querySelector(`#button${id}`);
+    let favBoolean = button.getAttribute('data-name');
+    console.log(favBoolean);
+    switch(favBoolean){
+      case 'false':
+      button.setAttribute('data-name', 'true');
+      button.classList.remove('star-empty');
+      button.classList.add('star-full');
+      break;
+      case 'true':
+      button.setAttribute('data-name', 'false');
+      button.classList.remove('star-full');
+      button.classList.add('star-empty');
+      break;
+      default:
+        console.log('boolean is invalid???');
+    }
+
+    fetch(DBHelper.DATABASE_URL(`restaurants/${id}/?isfavorite=${favBoolean}`), {
       method: 'PUT',
       mode: 'cors',
       redirect: 'follow'
@@ -464,6 +482,7 @@ class DBHelper {
     .catch( error => {
       console.log(error);
     })
+    e.preventDefault();
   }
 
   /**

@@ -238,6 +238,15 @@ createRestaurantHTML = (restaurant) => {
   divDescript.className = 'list-item-describor focus-item';
   li.append(divDescript);
 
+  let favBoolean = restaurant.isFavorite || false; //in case it hasn't been set yet
+  const favorite = document.createElement('button');
+  favBoolean == false ? favorite.className = 'star-empty focus-item' : favorite.className = 'star-full focus-item';
+  favorite.setAttribute('id', `button${restaurant.id}`);
+  favorite.setAttribute('data-name', favBoolean);
+  favorite.setAttribute('aria-label', `Setting ${restaurant.name} as favorite.`);
+  favorite.setAttribute('onclick',`DBHelper.toggleFavorite(${restaurant.id}, event)`);
+  li.append(favorite);
+
   const image = document.createElement('img');
   image.className = 'focus-item restaurant-img lazy-load';
   image.setAttribute('id', restaurant.id);
