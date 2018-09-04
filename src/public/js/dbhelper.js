@@ -78,7 +78,6 @@ class DBHelper {
         return keyValStore.count();
       }).then( count => {
         if( count != items.length){
-          idb.delete(idbResTx);
           return items;
         }else{ return items = null; }
         }).then( restaurants => {
@@ -151,9 +150,8 @@ class DBHelper {
         return keyValStore.count();
       }).then( count => {
         if( count != items.length){
-          idb.delete(idbRevTx);
           return items;
-        }else{ return items = null; }
+        }else{ return items = null; } //prevents unneccessary writing
       }).then( reviews => {
         console.log(reviews);
         if(reviews != null){

@@ -308,8 +308,6 @@ getParameterByName = (name, url) => {
     comments: comments
   };
 
-  console.log(id, name, rating, comments, time);
-
   DBHelper.submitReview(review);
   e.preventDefault();
 
