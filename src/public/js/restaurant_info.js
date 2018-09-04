@@ -122,12 +122,14 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   observer.observe(restaurantContainer); //used for lazy loading all classes 'lazy-load'
 
   let favBoolean = restaurant.isfavorite || false; //in case it hasn't been set yet
+  let favWord;
   const favorite = document.createElement('button');
   favBoolean == false ? favorite.className = 'star-empty focus-item' : favorite.className = 'star-full focus-item';
+  favBoolean == false ? favWord = 'not Favorite' : favWord = 'Favorite';
   favorite.setAttribute('id', `button${restaurant.id}`);
   favorite.setAttribute('data-name', favBoolean);
-  favorite.setAttribute('aria-label', `Setting ${restaurant.name} as favorite.`);
-  favorite.setAttribute('onclick',`DBHelper.toggleFavorite(${restaurant.id}, event)`);
+  favorite.setAttribute('aria-label',`Toggle Favorites: ${restaurant.name} is currently ${favWord}`);
+  favorite.setAttribute('onclick',`DBHelper.toggleFavorite(${restaurant.id}, '${restaurant.name}', event)`);
 
   restaurantContainer.prepend(favorite);
   restaurantContainer.prepend(divDescript);
@@ -148,6 +150,13 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
   cuisine.className = 'focus-item lazy-load';
+
+  const reviewForm = document.getElementById('form-container');
+  const divDescriptTwo = document.createElement('div');//To allow proper tabbing, otherwise list gets stuck
+  divDescriptTwo.setAttribute('aria-label', `${restaurant.name} review form. Please describe your experience at this restaurant.`);
+  divDescriptTwo.className = 'list-item-describor focus-item';
+
+  reviewForm.prepend(divDescriptTwo);
 
   // fill operating hours
   if (restaurant.operating_hours) {

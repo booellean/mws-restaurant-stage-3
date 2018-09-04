@@ -452,18 +452,21 @@ class DBHelper {
     })
   }
 
-  static toggleFavorite(id, e){
+  static toggleFavorite(id, name, e){
     let button = document.querySelector(`#button${id}`);
     let favBoolean = button.getAttribute('data-name');
-    console.log(favBoolean);
+    let restaurant = name;
+
     switch(favBoolean){
       case 'false':
       button.setAttribute('data-name', 'true');
+      button.setAttribute('aria-label', `Favorite: ${restaurant}`);
       button.classList.remove('star-empty');
       button.classList.add('star-full');
       break;
       case 'true':
       button.setAttribute('data-name', 'false');
+      button.setAttribute('aria-label', `Not Favorite: ${restaurant}`);
       button.classList.remove('star-full');
       button.classList.add('star-empty');
       break;

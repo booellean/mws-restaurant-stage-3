@@ -239,12 +239,15 @@ createRestaurantHTML = (restaurant) => {
   li.append(divDescript);
 
   let favBoolean = restaurant.isFavorite || false; //in case it hasn't been set yet
+  let favWord;
   const favorite = document.createElement('button');
   favBoolean == false ? favorite.className = 'star-empty focus-item' : favorite.className = 'star-full focus-item';
+  favBoolean == false ? favWord = 'not Favorite' : favWord = 'Favorite';
   favorite.setAttribute('id', `button${restaurant.id}`);
   favorite.setAttribute('data-name', favBoolean);
-  favorite.setAttribute('aria-label', `Setting ${restaurant.name} as favorite.`);
-  favorite.setAttribute('onclick',`DBHelper.toggleFavorite(${restaurant.id}, event)`);
+  favorite.setAttribute('onclick',`DBHelper.toggleFavorite(${restaurant.id},'${restaurant.name}', event)`);
+  favorite.setAttribute('aria-label',`Toggle Favorites: ${restaurant.name} is currently ${favWord}`);
+
   li.append(favorite);
 
   const image = document.createElement('img');
