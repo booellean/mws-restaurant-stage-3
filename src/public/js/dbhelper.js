@@ -485,7 +485,30 @@ class DBHelper {
       redirect: 'follow'
     })
     .then( response => {
-      console.log(response)
+      dbPromise.then( db => {
+        const tx = db.transaction(idbResTx, 'readwrite');
+        const keyValStore = tx.objectStore(idbResTx);
+        return keyValStore.get(id);
+      }).then( resObject => {
+        let restaurant = resObject;
+        dbPromise.then( db => {
+          const tx = db.transaction(idbResTx, 'readwrite');
+          const keyValStorage = tx.objectStore(idbResTx);
+          return keyValStorage.put({
+            id: restaurant.id,
+            address: restaurant.address,
+            alt: restaurant.alt,
+            cuisine_type: restaurant.cuisine_type,
+            ext: restaurant.ext,
+            is_favorite: boolean,
+            latlng: restaurant.latlng,
+            name: restaurant.name,
+            neighborhood: restaurant.neighborhood,
+            operating_hours: restaurant.operating_hours,
+            photograph: restaurant.photograph
+          });
+        })
+      })
     })
     .catch( error => {
       console.log(error);
