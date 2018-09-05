@@ -207,8 +207,16 @@
         font-size: 2.5em;
         position: absolute;
         transform: translate(-13px, -25px);
-        transition: color .2s ease-in-out;
+        transition: color .2s ease-in-out, text-shadow .2s ease-in-out;;
         color: #ffd000;
+      }
+      .star-full:hover::before{
+        color: #ffe15e;
+        text-shadow: 0 0 3px #89d5ff;
+      }
+      .star-full:active::before{
+        color: #ffe15e;
+        text-shadow: 0 0 3px #f18200;
       }
     }
     p {
@@ -261,8 +269,16 @@
     font-size: 3.6em;
     position: absolute;
     transform: translate(-20px, -38px);
-    transition: color .2s ease-in-out;
+    transition: color .2s ease-in-out, text-shadow .2s ease-in-out;
     color: #ffd000;
+  }
+  .star-full:hover::before{
+    color: #ffe15e;
+    text-shadow: 0 0 3px #89d5ff;
+  }
+  .star-full:active::before{
+    color: #ffe15e;
+    text-shadow: 0 0 3px #f18200;
   }
   #restaurant-name {
     color: #f18200;
@@ -354,11 +370,31 @@
       span{
         display: flex;
         flex-flow: row nowrap;
+        padding: 0;
+        margin: 0;
         input[type=range]{
           position: absolute;
         }
         p{
           display: block;
+          padding: 0;
+          margin: 0;
+        }
+        .star-empty{
+          font-size: 2.5em;
+          color: #ccc;
+          transition: color .2s ease-in-out, text-shadow .2s ease-in-out;;
+        }
+        .star-full{
+          font-size: 2.5em;
+          transition: color .2s ease-in-out, text-shadow .2s ease-in-out;;
+          color: #ffd000;
+        }
+      }
+      span:hover{
+        .star-full{
+          color: #ffe15e;
+          text-shadow: 0 0 3px #f18200;
         }
       }
     }
@@ -380,14 +416,6 @@
       width: 80%;
       display: block;
     }
-
-
-    // input[type=range]::before{
-    //   content: "★★★★★";
-    //   position: absolute;
-    //   display: block;
-    //   font-size: 5em;
-    // }
     textarea{
       width: 100%;
       min-width: 100%;
@@ -406,6 +434,7 @@
       text-align: center;
       text-decoration: none;
       text-transform: uppercase;
+      outline: none
     }
   }
 }
