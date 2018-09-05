@@ -1,5 +1,9 @@
 /* CSS Document */
 /*These styles for html and body will prevent overflow issues in mobile*/
+/* ======================== Basic ========================= */
+div, section, article, p {
+  outline: none;
+}
 /* ====================== Navigation ====================== */
 #site-nav {
   width: 100%;
@@ -362,6 +366,7 @@
     transform: translate(100vw);
   }
   form{
+    outline: none;
     div{
       width: 100%;
       display: flex;
