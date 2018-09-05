@@ -16,7 +16,8 @@ class RatingStars{
       this.nodeList[i].addEventListener('click', event => this.setRating(i));
     }
 
-    this.rangeSlider.addEventListener('mouseup', event => this.setRating());
+    this.rangeSlider.addEventListener('input', event => this.setRating());
+    this.rangeSlider.addEventListener('change', event => this.setRating());
   }
 
   changeStars(i) {
