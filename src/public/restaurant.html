@@ -156,7 +156,10 @@
           </div>
           <div>
             <label for="rating">Rating:</label>
-            <input type="range" min="0" max="5" value="0" id="rating" aria-label="Please select your experience on a scale of 0 to 5 using the arrow keys">
+            <span id="star-container">
+              <input type="range" min="0" max="5" value="0" id="rating" aria-label="Please select your experience on a scale of 0 to 5 using the arrow keys">
+              <p>&#9733;</p><p>&#9733;</p><p>&#9733;</p><p>&#9733;</p><p>&#9733;</p>
+            </span>
           </div>
           <div>
             <label for="comments">Comments:</label>
@@ -190,6 +193,8 @@
   <script type="application/javascript" charset="utf-8" src="js/service_worker.js"></script>
   <!-- Focus for the DOM objects -->
   <script type="application/javascript" charset="utf-8" src="js/focus_helper.js"></script>
+  <!-- Rating Behaviors -->
+  <script type="application/javascript" charset="utf-8" src="js/rating_helper.js"></script>
   <!-- End scripts -->
 
 </body>

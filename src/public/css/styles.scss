@@ -351,6 +351,16 @@
       display: flex;
       flex-flow: row wrap;
       padding: 10px 0px;
+      span{
+        display: flex;
+        flex-flow: row nowrap;
+        input[type=range]{
+          position: absolute;
+        }
+        p{
+          display: block;
+        }
+      }
     }
     h3{
       color: #f58500;
@@ -366,10 +376,18 @@
     label[for=comments]{
       width: 100%;
     }
-    input[type=text], input[type=range]{
+    input[type=text], span{
       width: 80%;
       display: block;
     }
+
+
+    // input[type=range]::before{
+    //   content: "★★★★★";
+    //   position: absolute;
+    //   display: block;
+    //   font-size: 5em;
+    // }
     textarea{
       width: 100%;
       min-width: 100%;
