@@ -15,6 +15,8 @@ class RatingStars{
       this.nodeList[i].addEventListener('mouseout', event => this.changeStars(-1));
       this.nodeList[i].addEventListener('click', event => this.setRating(i));
     }
+
+    this.rangeSlider.addEventListener('mouseup', event => this.setRating());
   }
 
   changeStars(i) {
@@ -29,9 +31,9 @@ class RatingStars{
   }
 
   setRating(i){
-    this.score = i + 1;
+    i != undefined ? this.score = i + 1 : this.score = this.rangeSlider.value;
     this.rangeSlider.value = this.score;
-    this.changeStars(i);
+    this.changeStars(this.score - 1);
   }
 }
 
