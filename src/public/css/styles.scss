@@ -374,6 +374,9 @@
         margin: 0;
         input[type=range]{
           position: absolute;
+          height: 0;
+          width: 0;
+          opacity: 0;
         }
         p{
           display: block;
@@ -411,6 +414,11 @@
     }
     label[for=comments]{
       width: 100%;
+    }
+    label[for=rating]{
+      display: flex;
+      flex-flow: column nowrap;
+      justify-content: center;
     }
     input[type=text], span{
       width: 80%;
