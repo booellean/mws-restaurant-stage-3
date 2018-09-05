@@ -1,0 +1,1 @@
+"use strict";function swRegister(){navigator.serviceWorker&&navigator.serviceWorker.register("/sw.js").then(function(reg){console.log("I did something")}).catch(function(err){throw err})}window.addEventListener("load",swRegister);
