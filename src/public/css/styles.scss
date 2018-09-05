@@ -212,7 +212,7 @@
       }
       .star-full:hover::before{
         color: #ffe15e;
-        text-shadow: 0 0 3px #89d5ff;
+        text-shadow: 0 0 3px #47bdff;
       }
       .star-full:active::before{
         color: #ffe15e;
@@ -434,7 +434,13 @@
       text-align: center;
       text-decoration: none;
       text-transform: uppercase;
-      outline: none
+      outline: none;
+      border: none;
+      transition: box-shadow .2s ease-in-out;
+      cursor: pointer;
+    }
+    button:active{
+      box-shadow: 0 0 7px #47bdff;
     }
   }
 }
