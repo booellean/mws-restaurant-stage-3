@@ -13,7 +13,7 @@ I have had a *blast* in this program.  It has furthered my development as a code
 
 * The code is dependent on a refactored database. Please use booellean's [repository][repo-link] to download the database and run with [sails.js][sails-link]
 
-* The production files are located in `/src/prod` while the development files are located in `/src/public/`. Please use production files when serving the website
+* The production files are located in `/src/prod` under the production branch while the development files are located in `/src/public/` in the master branch. Please use production files when serving the website
 
 * The gulpfile.js is NOT my own. This was going to be used as a reference, however, my node dependencies are having issues installing and thus was not used in production of the code. The original owner of the gulfile is [seetd][github-seetd] for the project [mws-restaurant-stage-1][mws-repo].
 
